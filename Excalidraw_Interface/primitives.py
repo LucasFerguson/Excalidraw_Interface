@@ -1,4 +1,3 @@
-""" Excalidraw primitives"""
 from Excalidraw_Interface.defaults import FONT_FAMILY
 from PIL import ImageFont
 import random
@@ -32,6 +31,7 @@ class ExcaliDrawPrimitive:
         self.width = width
         self.height = height
         self._groupIds = []
+        self.apply_recursive_groups = []
 
         self.config = copy.deepcopy(default_config)
         for key, value in kwargs.items():
@@ -46,6 +46,11 @@ class ExcaliDrawPrimitive:
                        'groupIds': self._groupIds}
         export_dict.update(self.config)
         return export_dict
+
+    def add_to_group(self, group_id):
+        self._groupIds.append(group_id)
+        for elem in self.apply_recursive_groups:
+            elem.add_to_group(group_id)
 
     @property
     def center(self):
@@ -86,6 +91,7 @@ class Shape(ExcaliDrawPrimitive):
 
         super().__init__(shape, default_config, x=x, y=y, width=width, height=height, **kwargs)
 
+#TODO - fix fonts
 class Text(ExcaliDrawPrimitive):
     def __init__(self, text: str, default_config, x, y, **kwargs):
         """
@@ -97,7 +103,7 @@ class Text(ExcaliDrawPrimitive):
         :param kwargs: additional config to override defaults
         """
 
-        super().__init__('text', default_config, x, y, **kwargs)
+        super().__init__('text', default_config, x, y, 0, 0, **kwargs)
         self.text = text
 
         d = super().export()
@@ -168,3 +174,33 @@ class Line(ExcaliDrawPrimitive):
             "type": self.excal_type
         })
         element.config['boundElements'] = bound_e
+
+class Group(ExcaliDrawPrimitive):
+    def __init__(self, elems: list[ExcaliDrawPrimitive], first_is_group = False):
+        """
+        Create a group (a fake element for handling group logic)
+        :param elems: list of excalidraw objects to group
+        :param first_is_group: treat the first element of the list as representing the whole group
+        """
+        group_id = str(uuid.uuid4())
+
+        left_x = min([elem.x for elem in elems])
+        top_y = min([elem.y for elem in elems])
+        width = max([elem.x + elem.width - left_x for elem in elems])
+        height = max([elem.y + elem.height - top_y for elem in elems])
+
+        for elem in elems:
+            elem.add_to_group(group_id)
+
+        super().__init__('group', {}, left_x, top_y, width, height)
+        self.elems = elems
+
+        if first_is_group:
+            elems[0].apply_recursive_groups.extend(elems[1:])
+
+    def export(self):
+        raise Exception("Group should not be exported - a group was incorrectly added to sketch.")
+
+    def add_to_group(self, group_id):
+        for elem in self.elems:
+            elem.add_to_group(group_id)
