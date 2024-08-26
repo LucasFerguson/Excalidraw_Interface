@@ -1,21 +1,3 @@
-# Excalidraw_Interface
-
-![Tests Badge](https://github.com/RobertJN64/Excalidraw_Interface/actions/workflows/tests.yml/badge.svg)
-![Python Version Badge](https://img.shields.io/pypi/pyversions/Excalidraw_Interface)
-![License Badge](https://img.shields.io/github/license/RobertJN64/Excalidraw_Interface)
-
-A pythonic interface for creating diagrams in Excalidraw.
-
-Based on https://github.com/BardOfCodes/procXD by Aditya Ganeshan (MIT License) and updated with modern python support
-and API improvements.
-
-## Example: Flowchart
-
-[flowchart.py](Excalidraw_Interface/examples/flowchart.py)
-
-![flowchart image](images/flowchart.png)
-
-```python
 from Excalidraw_Interface import SketchBuilder
 
 flowchart_items = ['First Step', 'Second Step', 'Third Step']
@@ -36,4 +18,3 @@ sb.create_binding_arrows(prev_item, hcb, sb.DoubleArrow) # Create a double heade
 sb.create_binding_arrows(prev_item, circle, strokeColor = 'blue') # Create an blue arrow
 
 sb.export_to_file('out.excalidraw')
-```
