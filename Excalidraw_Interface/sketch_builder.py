@@ -170,9 +170,8 @@ class SketchBuilder:
         new_x = element_center[0]
         new_y = element_center[1]
 
-        element_bbox = element.bbox
-        new_width = element_bbox[2] - element_bbox[0] + 2 * padding
-        new_height = element_bbox[3] - element_bbox[1] + 2 * padding
+        new_width = element.width + 2 * padding
+        new_height = element.height + 2 * padding
 
         bounding_elem = function(x=new_x, y=new_y, width=new_width, height=new_height, **kwargs)
 

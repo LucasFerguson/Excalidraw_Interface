@@ -11,16 +11,17 @@ class ExcaliDrawPrimitive:
     Base class for all excalidraw primitives
     """
 
-    def __init__(self, excal_type: str, default_keys: dict, x=0, y=0, width=100, height=100, **kwargs):
+    def __init__(self, excal_type: str, default_config: dict,
+                 x: float, y: float, width: float, height: float, **kwargs):
         """
         Initialize the excalidraw primitive
         :param excal_type: type of the excalidraw primitive
-        :param default_keys: default values
+        :param default_config: default values
         :param x: top left x
         :param y: top left y
         :param width: width
         :param height: height
-        :param kwargs: additional config
+        :param kwargs: additional config to override defaults
         """
         self.excal_type = excal_type
         self.excal_id = str(uuid.uuid4())
@@ -30,9 +31,9 @@ class ExcaliDrawPrimitive:
         self.y = y
         self.width = width
         self.height = height
-        self.groupIds = []
+        self._groupIds = []
 
-        self.config = copy.deepcopy(default_keys)
+        self.config = copy.deepcopy(default_config)
         for key, value in kwargs.items():
             if key not in self.config:
                 raise Exception(f"Unexpected key for shape {excal_type}: {key}")
@@ -41,7 +42,8 @@ class ExcaliDrawPrimitive:
     def export(self):
         """ Convert the excalidraw primitive specifications to a dictionary """
         export_dict = {'id': self.excal_id, 'type': self.excal_type, 'seed': self.excal_seed,
-                       'x': self.x, 'y': self.y, 'width': self.width, 'height': self.height, 'groupIds': self.groupIds}
+                       'x': self.x, 'y': self.y, 'width': self.width, 'height': self.height,
+                       'groupIds': self._groupIds}
         export_dict.update(self.config)
         return export_dict
 
@@ -49,11 +51,6 @@ class ExcaliDrawPrimitive:
     def center(self):
         """ Return the center of the excalidraw primitive """
         return [self.x + self.width / 2, self.y + self.height / 2]
-
-    @property
-    def bbox(self):
-        """ Return the bounding box of the excalidraw primitive"""
-        return [self.x, self.y, self.x + self.width, self.y + self.height]
 
     def get_edge_midpoint(self, theta, padding=5):
         # given angle theta measured from the positive x-axis, return the boundary mapped to the center of the edges
@@ -72,36 +69,35 @@ class ExcaliDrawPrimitive:
 
 
 class Shape(ExcaliDrawPrimitive):
-    def __init__(self, shape: str, defaults: dict, x, y, width=100, height=100, **kwargs):
+    def __init__(self, shape: str, default_config, x, y, width, height, **kwargs):
         """
         Creates a rectangle, ellipse, or diamond
         :param shape: "rectangle", "ellipse", "diamond"
-        :param defaults: defaults dictionary
+        :param default_config: default values
         :param x: center x
         :param y: center y
         :param width: width
         :param height: height
-        :param kwargs: other properties
+        :param kwargs: additional config to override defaults
         """
 
         x -= width/2
         y -= height/2
 
-        super().__init__(shape, defaults, x=x, y=y, width=width, height=height, **kwargs)
+        super().__init__(shape, default_config, x=x, y=y, width=width, height=height, **kwargs)
 
 class Text(ExcaliDrawPrimitive):
-    """ Create a text box."""
-    def __init__(self, text: str, defaults: dict, x: int, y: int, **kwargs):
+    def __init__(self, text: str, default_config, x, y, **kwargs):
         """
-        Creates text
+        Creates text item, width and height set automatically
         :param text: text
-        :param defaults: defaults dictionary
+        :param default_config: default values
         :param x: center x
         :param y: center y
-        :param kwargs: other properties
+        :param kwargs: additional config to override defaults
         """
 
-        super().__init__('text', defaults, x, y, **kwargs)
+        super().__init__('text', default_config, x, y, **kwargs)
         self.text = text
 
         d = super().export()
@@ -120,14 +116,14 @@ class Text(ExcaliDrawPrimitive):
         return d
 
 class Line(ExcaliDrawPrimitive):
-    def __init__(self, excal_type: str, defaults: dict, start_pt: tuple, end_pt: tuple, **kwargs):
+    def __init__(self, excal_type, default_config, start_pt: tuple, end_pt: tuple, **kwargs):
         """
         Creates a line or arrow
         :param excal_type: 'line' or 'arrow'
-        :param defaults: defaults dictionary
-        :param start_pt: start pt
-        :param end_pt: end pt
-        :param kwargs: other properties
+        :param default_config: default values
+        :param start_pt: start pt | tuple[float, float]
+        :param end_pt: end pt | tuple[float, float]
+        :param kwargs: additional config to override defaults
         """
 
         start_x = start_pt[0]
@@ -138,7 +134,7 @@ class Line(ExcaliDrawPrimitive):
         height = abs(end_y - start_y)
         self.points = [[0, 0], [end_x - start_x, end_y - start_y]]
 
-        super().__init__(excal_type, defaults, x=start_x, y=start_y, width=width, height=height, **kwargs)
+        super().__init__(excal_type, default_config, x=start_x, y=start_y, width=width, height=height, **kwargs)
 
     def export(self):
         d = super().export()
