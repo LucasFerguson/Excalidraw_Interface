@@ -91,7 +91,6 @@ class Shape(ExcaliDrawPrimitive):
 
         super().__init__(shape, default_config, x=x, y=y, width=width, height=height, **kwargs)
 
-#TODO - fix fonts
 class Text(ExcaliDrawPrimitive):
     def __init__(self, text: str, default_config, x, y, **kwargs):
         """
@@ -109,6 +108,8 @@ class Text(ExcaliDrawPrimitive):
         d = super().export()
         _font_file = FONT_FAMILY[d['fontFamily']]
         _font = ImageFont.truetype(_font_file, d['fontSize'])
+
+        # TODO - fix fonts (support linux properly and match size on excalidraw better)
         left, top, right, bottom = _font.getbbox(self.text)
 
         self.width = right - left
