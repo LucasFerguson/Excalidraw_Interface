@@ -98,3 +98,22 @@ def test_examples():
     import Excalidraw_Interface.examples.flowchart
     # noinspection PyUnresolvedReferences
     import Excalidraw_Interface.examples.advanced_groups
+
+def test_internal_comparison():
+    with pytest.raises(Exception, match="Type mismatch. <>"):
+        _compare_json({}, [], [], '')
+
+    with pytest.raises(Exception, match="Type mismatch. <>"):
+        _compare_json([], {}, [], '')
+
+    with pytest.raises(Exception, match="Item <a> does not match <b>. <>"):
+        _compare_json('a', 'b', [], '')
+
+    with pytest.raises(Exception, match="Length mismatch. <>"):
+        _compare_json([1], [], [], '')
+
+    with pytest.raises(Exception, match="Missing key a from objb. <>"):
+        _compare_json({'a': 'a'}, {}, [], '')
+
+    with pytest.raises(Exception, match="Missing key a from obja. <>"):
+        _compare_json({}, {'a': 'a'}, [], '')
