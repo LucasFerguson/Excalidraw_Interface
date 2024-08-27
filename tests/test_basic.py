@@ -12,7 +12,8 @@ def test_flowchart_example():
         sb.create_binding_arrows(prev_item, new_item)  # Create arrows between boxes
         prev_item = new_item
 
-    hcb = sb.HeaderContentBox("Header", "Content", x=-200, y=400)  # Create a multiline text box
+    hcb = sb.HeaderContentBox("Header", "Content", x=-200, y=400,
+                              header_kwargs={'strokeColor': 'blue'})  # Create a multiline text box
     circle = sb.Ellipse(200, 400, width=50, height=50, backgroundColor='red',
                         roughness=1)  # Create a red circle in hand drawn style
 
@@ -41,5 +42,3 @@ def test_errors():
     with pytest.raises(Exception, match="Group should not be exported - a group was incorrectly added to sketch."):
         sb.add_element(Group([sb.Rectangle(0,0)]))
         sb.export_to_json()
-
-#TODO - recursive groups
