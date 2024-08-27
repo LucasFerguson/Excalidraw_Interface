@@ -1,0 +1,149 @@
+{
+    "type": "excalidraw",
+    "version": 1,
+    "source": "Excalidraw.py",
+    "elements": [
+        {
+            "id": "fc06e9d6-4840-4ffe-968a-9fcf9d6be01b",
+            "type": "diamond",
+            "seed": 65223,
+            "x": -50.0,
+            "y": -50.0,
+            "width": 100,
+            "height": 100,
+            "groupIds": [],
+            "angle": 0,
+            "strokeColor": "#000000",
+            "backgroundColor": "transparent",
+            "fillStyle": "hachure",
+            "strokeStyle": "solid",
+            "strokeWidth": 1,
+            "roughness": 2,
+            "opacity": 100,
+            "roundness": {
+                "type": 3
+            },
+            "version": 1,
+            "versionNonce": 0,
+            "isDeleted": false,
+            "boundElements": [],
+            "updated": 0,
+            "link": null,
+            "locked": false
+        },
+        {
+            "id": "43176744-40fc-499a-8b67-420ea2da9039",
+            "type": "line",
+            "seed": 17027,
+            "x": 0,
+            "y": 0,
+            "width": 15,
+            "height": 15,
+            "groupIds": [
+                "6437847f-333f-4f89-ae02-226876ddc2fb",
+                "78d9ec31-3957-44e1-b316-968592c3ad59"
+            ],
+            "angle": 0,
+            "strokeColor": "#000000",
+            "backgroundColor": "transparent",
+            "fillStyle": "hachure",
+            "strokeStyle": "solid",
+            "strokeWidth": 1,
+            "roughness": 2,
+            "opacity": 100,
+            "roundness": {
+                "type": 3
+            },
+            "version": 1,
+            "versionNonce": 0,
+            "isDeleted": false,
+            "boundElements": [],
+            "updated": 0,
+            "link": null,
+            "locked": false,
+            "lastCommitedPoint": null,
+            "startBinding": null,
+            "endBinding": null,
+            "startArrowhead": null,
+            "endArrowhead": null,
+            "roundess": {
+                "type": 2
+            },
+            "points": [
+                [
+                    0,
+                    0
+                ],
+                [
+                    15,
+                    15
+                ]
+            ]
+        },
+        {
+            "id": "26c55754-ea1c-4a84-ad65-17b2cf4ce867",
+            "type": "ellipse",
+            "seed": 45628,
+            "x": -10.0,
+            "y": -10.0,
+            "width": 35,
+            "height": 35,
+            "groupIds": [
+                "6437847f-333f-4f89-ae02-226876ddc2fb",
+                "78d9ec31-3957-44e1-b316-968592c3ad59"
+            ],
+            "angle": 0,
+            "strokeColor": "#000000",
+            "backgroundColor": "transparent",
+            "fillStyle": "hachure",
+            "strokeStyle": "solid",
+            "strokeWidth": 1,
+            "roughness": 2,
+            "opacity": 100,
+            "roundness": {
+                "type": 3
+            },
+            "version": 1,
+            "versionNonce": 0,
+            "isDeleted": false,
+            "boundElements": [],
+            "updated": 0,
+            "link": null,
+            "locked": false
+        },
+        {
+            "id": "40f74c60-fad8-499e-8c66-9cea0fe1fd7f",
+            "type": "rectangle",
+            "seed": 44686,
+            "x": -20.0,
+            "y": -20.0,
+            "width": 55,
+            "height": 55,
+            "groupIds": [
+                "78d9ec31-3957-44e1-b316-968592c3ad59"
+            ],
+            "angle": 0,
+            "strokeColor": "#000000",
+            "backgroundColor": "transparent",
+            "fillStyle": "hachure",
+            "strokeStyle": "solid",
+            "strokeWidth": 1,
+            "roughness": 2,
+            "opacity": 100,
+            "roundness": {
+                "type": 3
+            },
+            "version": 1,
+            "versionNonce": 0,
+            "isDeleted": false,
+            "boundElements": [],
+            "updated": 0,
+            "link": null,
+            "locked": false
+        }
+    ],
+    "appState": {
+        "viewBackgroundColor": "#ffffff",
+        "gridSize": null
+    }
+}
