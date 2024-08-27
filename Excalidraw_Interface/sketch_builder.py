@@ -32,11 +32,11 @@ class SketchBuilder:
                 used = True
 
             if key in self.LINE_DEFAULTS:
-                self.BOX_DEFAULTS[key] = value
+                self.LINE_DEFAULTS[key] = value
                 used = True
 
             if key in self.TEXT_DEFAULTS:
-                self.BOX_DEFAULTS[key] = value
+                self.TEXT_DEFAULTS[key] = value
                 used = True
 
             if not used:
@@ -122,6 +122,13 @@ class SketchBuilder:
 
     def export_to_file(self, save_path):
         """Export the sketch to a excalidraw file."""
+        if save_path.split(".")[-1] != "excalidraw":
+            save_path += ".excalidraw"
+
+        with open(save_path, "w") as file_reader:
+            json.dump(self.export_to_json(), file_reader, indent=4)
+
+    def export_to_json(self):
         data = {
             "type": "excalidraw",
             "version": 1,
@@ -137,12 +144,7 @@ class SketchBuilder:
             json_obj = element.export()
             data['elements'].append(json_obj)
 
-        if save_path.split(".")[-1] != "excalidraw":
-            save_path += ".excalidraw"
-
-        with open(save_path, "w") as file_reader:
-            json.dump(data, file_reader, indent=4)
-
+        return data
     def create_binding_arrows(self, start: primitives.ExcaliDrawPrimitive, end: primitives.ExcaliDrawPrimitive,
                               arrow = None, padding:int=10, **kwargs):
         """
