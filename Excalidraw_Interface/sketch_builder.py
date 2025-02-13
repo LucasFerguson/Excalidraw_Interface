@@ -141,8 +141,14 @@ class SketchBuilder:
         }
 
         for element in self._draw_objs:
-            json_obj = element.export()
-            data['elements'].append(json_obj)
+            if not isinstance(element, primitives.Text): # render text last so text is on top
+                json_obj = element.export()
+                data['elements'].append(json_obj)
+
+        for element in self._draw_objs:
+            if isinstance(element, primitives.Text):
+                json_obj = element.export()
+                data['elements'].append(json_obj)
 
         return data
     def create_binding_arrows(self, start: primitives.ExcaliDrawPrimitive, end: primitives.ExcaliDrawPrimitive,
