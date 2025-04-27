@@ -40,6 +40,7 @@ TEXT_DEFAULTS = dict(
     containerId=None,
     originalText="default text",
     roundness=None,
+	autoResize=True,
 )
 
 

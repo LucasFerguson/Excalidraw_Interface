@@ -101,21 +101,27 @@ class Text(ExcaliDrawPrimitive):
         :param y: center y
         :param kwargs: additional config to override defaults
         """
-
-        super().__init__('text', default_config, x, y, 0, 0, **kwargs)
         self.text = text
 
-        d = super().export()
-        _font_file = FONT_FAMILY[d['fontFamily']]
-        _font = ImageFont.truetype(_font_file, d['fontSize'])
+        # Calculate width and height if not provided
+        if 'width' not in kwargs or 'height' not in kwargs:
+            d = copy.deepcopy(default_config)
+            d.update(kwargs)
+            _font_file = FONT_FAMILY[d['fontFamily']]
+            _font = ImageFont.truetype(_font_file, d['fontSize'])
+            left, top, right, bottom = _font.getbbox(text)
+            
+            if 'width' not in kwargs:
+                kwargs['width'] = right - left
+            if 'height' not in kwargs:
+                kwargs['height'] = bottom - top
 
-        # TODO - fix fonts (support linux properly and match size on excalidraw better)
-        left, top, right, bottom = _font.getbbox(self.text)
+        width = kwargs.pop('width')
+        height = kwargs.pop('height')
+        x -= width / 2
+        y -= height / 2
 
-        self.width = right - left
-        self.height = bottom - top
-        self.x -= self.width / 2
-        self.y -= self.height / 2
+        super().__init__('text', default_config, x, y, width, height, **kwargs)
 
     def export(self):
         d = super().export()
